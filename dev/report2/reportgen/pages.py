@@ -1,5 +1,9 @@
+import pathlib
+from typing import List
+from . import Event
 
-def makeDailyPage(events: List[LogEvent]):
+
+def makeDailyPage(events: List[Event], saveAs: pathlib.Path):
     """
     This page shows all events for a single day
     """
@@ -47,6 +51,5 @@ def makeDailyPage(events: List[LogEvent]):
         .replace("{{TITLE}}", "Analytics Report")\
         .replace("{{CONTENT}}", html)
 
-    outPath = pathlib.Path(__file__).parent.joinpath("out.html")
-    with open(outPath, 'w') as f:
+    with open(saveAs, 'w') as f:
         f.write(html)
