@@ -12,7 +12,7 @@ Add this HTML to any page you wish to track (on any website)
 
 ### Dashboard
 
-Navigate to `graph/` or `live/` in your browser
+Navigate to `analytics/graph/` or `analytics/live/` in your browser
 
 ### Developer Environment
 

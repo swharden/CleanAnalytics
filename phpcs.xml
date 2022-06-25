@@ -1,0 +1,18 @@
+<ruleset name="MyStandard">
+    <description>My custom coding standard.</description>
+    <rule ref="PEAR">
+        <exclude name="PEAR.Commenting.ClassComment" />
+        <exclude name="PEAR.Commenting.FileComment.Missing" />
+        <exclude name="PEAR.Commenting.FunctionComment.Missing" />
+
+        <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag" />
+        <exclude name="PEAR.Commenting.FileComment.MissingPackageTag" />
+        <exclude name="PEAR.Commenting.FileComment.MissingLinkTag" />
+        <exclude name="PEAR.Commenting.FileComment.MissingVersion" />
+
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
+        <exclude name="PEAR.Commenting.FunctionComment.Missing" />
+        <exclude name="PEAR.Commenting.FunctionComment.MissingReturn" />
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag" />
+    </rule>
+</ruleset>
