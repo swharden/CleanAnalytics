@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../htdocs/log/v1/lib.php';
+require_once __DIR__ . '/../analytics/log/v1/lib.php';
 
 class LogEndpointTest extends \PHPUnit\Framework\TestCase
 {
