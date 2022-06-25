@@ -1,20 +1,54 @@
 <?php
 
-function getLogfileLocation(\DateTimeInterface $date): string {
-    return sprintf(__DIR__ . '/../../logs/%s.txt', $date->format('Y-m-d'));
-}
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-function writeStatistics(string $filepath, \DateTimeInterface $date, string $ip, string $url, string $referrer, string $userAgent): bool {
-    $logLine =
-        $date->format('c') . " " .
-        $ip . " " .
-        $url . " " .
-        $referrer . " " .
-        $userAgent . "\n";
+/**
+ * Contains information about a single page request event.
+ * URL and Referrer may be user-reported and not sanitized.
+ */
+class PageRecord
+{
+    public DateTimeImmutable $timestamp;
+    public string $ip;
+    public string $url;
+    public string $referrer;
+    public string $agent;
 
-    if (false === file_put_contents($filepath, $logLine, FILE_APPEND | LOCK_EX)) {
-        return false;
+    function __construct(
+        string $ip,
+        string $url,
+        string $referrer,
+        string $agent,
+        DateTimeImmutable $timestamp,
+        bool $sanitize = false
+    ) {
+        $this->ip = $ip;
+
+        $this->timestamp = $timestamp;
+
+        $this->url = $sanitize
+            ? $this->_sanitize($url)
+            : $url;
+
+        $this->referrer = $sanitize
+            ? $this->_sanitize($referrer)
+            : $referrer;
+
+        $this->agent = $sanitize
+            ? $this->_sanitize($agent, true)
+            : $agent;
     }
 
-    return true;
+    private function _sanitize($text, bool $whitespaceAllowed = false): string
+    {
+        $text = strip_tags($text);
+        $text = str_replace("\r", "", $text);
+        $text = str_replace("\n", "", $text);
+        if ($whitespaceAllowed == false) {
+            $text = str_replace(" ", "", $text);
+        }
+        return $text;
+    }
 }
