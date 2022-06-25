@@ -1,0 +1,8 @@
+{
+    "name": "swharden/analytics",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "require": {}
+}

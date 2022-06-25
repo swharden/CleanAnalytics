@@ -3,3 +3,7 @@
 bin/
 obj/
 dev/report/report.html
+/vendor/
+.ddev/
+.idea/
+.phpunit.result.cache
