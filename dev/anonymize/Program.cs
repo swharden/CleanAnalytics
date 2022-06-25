@@ -1,9 +1,18 @@
-﻿Anonymize("../../htdocs/logs/2022-06-21.txt");
+﻿foreach (string path in Directory.GetFiles("../../analytics/logs", "*.txt"))
+{
+    Console.WriteLine(path);
+    Anonymize(path);
+}
 
 static string AnonymizeIp(string ip)
 {
+    if (ip.Contains("x")) // already anonymous
+        return ip;
+
     string[] parts = ip.Split(".");
-    return $"{parts[0]}.{parts[1]}.x.x";
+    parts[2] = "xx" + (int.Parse(parts[2]) % 10).ToString();
+    parts[3] = "xx" + (int.Parse(parts[3]) % 10).ToString();
+    return string.Join(".", parts);
 }
 
 static void Anonymize(string filePath)
