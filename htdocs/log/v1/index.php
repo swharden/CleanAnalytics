@@ -1,6 +1,8 @@
 <?php
+include "lib.php";
 
 header("Access-Control-Allow-Origin: *");
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] != "POST") {
     http_response_code(400);
@@ -9,23 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] != "POST") {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
+$date = new DateTimeImmutable();
 
 $response = array(
     "guid" => bin2hex(random_bytes(16)),
-    "timestamp" => gmdate("c"),
+    "timestamp" => $date->format("c"),
     "ip" => $_SERVER['REMOTE_ADDR'],
     "url" => $data["url"],
     "ref" => $data["ref"],
     "agent" => $_SERVER['HTTP_USER_AGENT'],
 );
 
-$filename = "../../logs/" . gmdate("Y-m-d") . ".txt";
-$logLine =
-    $response["timestamp"] . " " .
-    $response["ip"] . " " .
-    $response["url"] . " " .
-    $response["ref"] . " " .
-    $response["agent"] . "\n";
-file_put_contents($filename, $logLine, FILE_APPEND | LOCK_EX);
+$success = writeStatistics(
+    getLogfileLocation($date),
+    $date,
+    $response["ip"],
+    $response["url"],
+    $response["ref"],
+    $response["agent"],
+);
+
+if (false === $success) {
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'could not write file'
+    ]);
+}
 
 echo json_encode($response);
