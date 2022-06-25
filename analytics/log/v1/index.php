@@ -1,5 +1,5 @@
 <?php
-include "lib.php";
+include __DIR__ . "../../lib.php";
 
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
