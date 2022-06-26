@@ -91,7 +91,7 @@
                         response.json().then(json => {
                             const records = json["records"];
                             records.map(record => {
-                                const timestamp = Date.parse(record["timestamp"]["date"]);
+                                const timestamp = Date.parse(record["timestamp"]["date"] + " GMT");
                                 const ip = record["ip"];
                                 const url = record["url"];
                                 const ref = record["referrer"];
