@@ -18,5 +18,7 @@ jobs:
         uses: php-actions/composer@v5
         with:
           php_version: "7.4"
+      - name: Static code analysis
+        run: ./vendor/bin/psalm --output-format=github
       - name: 🧪 Run Tests
         run: ./vendor/bin/phpunit -vvv

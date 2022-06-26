@@ -21,3 +21,4 @@
 * Testing and linting requires [Composer](https://getcomposer.org/download/)
 * Download dependencies: `composer install`
 * Run phpunit tests: `composer test`
+* Static analysis: `composer analyze`
