@@ -15,7 +15,7 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
         $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
 
         $logFilePath = tempnam(sys_get_temp_dir(), 'logTest');
-        logEventToFile($record, $logFilePath);
+        writeToLogFile($record, $logFilePath);
 
         $this->_assertFileLineCount($logFilePath, 1);
     }

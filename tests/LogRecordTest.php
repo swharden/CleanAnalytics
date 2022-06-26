@@ -11,7 +11,8 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $ref = "https://exa\nmple\r.com/";
         $agent = "some user agent";
         $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
-        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp, true);
+        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
+        $record = getSanitizedRecord($record);
 
         $this->assertStringNotContainsString("\n", $record->url);
         $this->assertStringNotContainsString("\n", $record->referrer);
@@ -30,7 +31,8 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $ref = "https://exa mple .com/";
         $agent = "some user agent";
         $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
-        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp, true);
+        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
+        $record = getSanitizedRecord($record);
 
         $this->assertStringNotContainsString(" ", $record->url);
         $this->assertStringNotContainsString(" ", $record->referrer);
@@ -46,7 +48,8 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $ref = "https://exa<b>HTML</b>mple<b>HTML</b>.com/";
         $agent = "some user agent";
         $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
-        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp, true);
+        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
+        $record = getSanitizedRecord($record);
 
         $this->assertStringNotContainsString("<", $record->url);
         $this->assertStringNotContainsString(">", $record->url);
@@ -61,7 +64,8 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $ref = "https://example.com/";
         $agent = "some \nuser\r agent";
         $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
-        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp, true);
+        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
+        $record = getSanitizedRecord($record);
 
         $this->assertStringNotContainsString("\n", $record->agent);
         $this->assertStringNotContainsString("\r", $record->agent);
@@ -75,7 +79,8 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $ref = "https://example.com/";
         $agent = "some user<b>asdf</b> agent";
         $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
-        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp, true);
+        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
+        $record = getSanitizedRecord($record);
 
         $this->assertStringNotContainsString("<", $record->agent);
         $this->assertStringNotContainsString(">", $record->agent);

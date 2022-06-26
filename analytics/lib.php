@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 
 /**
  * Contains information about a single page request event.
- * URL and Referrer may be user-reported and not sanitized.
  */
 class PageRecord
 {
@@ -21,34 +20,37 @@ class PageRecord
         string $url,
         string $referrer,
         string $agent,
-        DateTimeImmutable $timestamp,
-        bool $sanitize = false
+        DateTimeImmutable $timestamp
     ) {
         $this->ip = $ip;
-
         $this->timestamp = $timestamp;
-
-        $this->url = $sanitize
-            ? $this->_sanitize($url)
-            : $url;
-
-        $this->referrer = $sanitize
-            ? $this->_sanitize($referrer)
-            : $referrer;
-
-        $this->agent = $sanitize
-            ? $this->_sanitize($agent, true)
-            : $agent;
+        $this->url =  $url;
+        $this->referrer = $referrer;
+        $this->agent = $agent;
     }
+}
 
-    private function _sanitize($text, bool $whitespaceAllowed = false): string
-    {
-        $text = strip_tags($text);
-        $text = str_replace("\r", "", $text);
-        $text = str_replace("\n", "", $text);
-        if ($whitespaceAllowed == false) {
-            $text = str_replace(" ", "", $text);
-        }
-        return $text;
+/**
+ * Create a sanitized PageRecord from one potentially malicious strings
+ */
+function getSanitizedRecord(PageRecord $record): PageRecord
+{
+    return new PageRecord(
+        getSanitizedString($record->ip),
+        getSanitizedString($record->url),
+        getSanitizedString($record->referrer),
+        getSanitizedString($record->agent, true),
+        $record->timestamp
+    );
+}
+
+function getSanitizedString($text, bool $whitespaceAllowed = false): string
+{
+    $text = strip_tags($text);
+    $text = str_replace("\r", "", $text);
+    $text = str_replace("\n", "", $text);
+    if ($whitespaceAllowed == false) {
+        $text = str_replace(" ", "", $text);
     }
+    return $text;
 }

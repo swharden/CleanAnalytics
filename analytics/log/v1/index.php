@@ -28,9 +28,10 @@ $url = $posts['url'];
 $referrer = $posts['ref'];
 $agent = $posts['agent'];
 $timestamp = new DateTimeImmutable();
-$record = new PageRecord($ip, $url, $referrer, $agent, $timestamp, true);
 
-$logFilePath = logEventToFile($record);
+$record = new PageRecord($ip, $url, $referrer, $agent, $timestamp);
+
+$logFilePath = writeToLogFile($record);
 
 if ($logFilePath == null) {
     http_response_code(500);
