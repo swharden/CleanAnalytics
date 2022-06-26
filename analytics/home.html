@@ -16,37 +16,44 @@
             text-decoration: underline;
         }
     </style>
+
+
+    <script>
+        fetch('/analytics/', {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({
+                url: window.location.href,
+                ref: document.referrer
+            })
+        });
+    </script>
+
 </head>
 
 <body>
 
     <div class="text-light py-4" style="background-color: #003366;">
-        <div class="container">
+        <div class="container" style="max-width: 800px;">
             <div class="fs-3">Clean Analytics</div>
             <div>Minimal privacy-focused website analytics</div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="max-width: 800px;">
 
         <h3 class="mt-5">About</h3>
         <div>
-            Clean Analytics is a system for logging page views across multiple websites and providing a dashboard
-            with page analytics plots and queryable reports.
-            It was created to be a simpler and privacy-focused alternative to Google Analytics.
+            <strong>Clean Analytics is a privacy-focused system for logging webpage and application telemetry.</strong>
+
+            Events are recording using HTTP requests, logged to a database, queryable,
+            and can be inspected in real time from a graphical dashboard.
+
+            Clean Analytics was created to be a simpler alternative to Google Analytics that never uses cookies
+            and has ultimate respect for user privacy.
         </div>
 
-        <h3 class="mt-5">Features</h3>
-        <ul>
-            <li>IP addresses are not stored in the database</li>
-            <li>Cookies are never used to track users</li>
-            <li>Page views can be viewed across multiple websites from a single dashboard</li>
-            <li>Tracking code can be used on any HTML page, including GitHub Pages</li>
-            <li>Desktop applications can send telemetry using HTTP requests to the logging API</li>
-            <li>Dashboard shows realtime streaming logs as pages are viewed</li>
-        </ul>
-
-        <h3 class="mt-5">Dashboard</h3>
+        <h3 class="mt-5">Dashboards</h3>
         <ul>
             <li><a href="live">Streaming Logs</a></li>
             <li><a href="graph">Daily and Hourly Logs</a></li>
