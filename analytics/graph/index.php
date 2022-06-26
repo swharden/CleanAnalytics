@@ -99,17 +99,19 @@
 <body>
 
 
-    <div class="text-center my-5">
-        <div class="text-center py-3 border rounded bg-light d-inline-block">
-            <span>URL Filter:</span>
-            <input type="text" class="form-control d-inline-block w-50" value="" id="urlMatch"></input>
-            <button onclick="fetchData()" class="btn btn-primary">Update</button>
+    <div class="container">
+        <div class="text-center my-5">
+            <div class="text-center py-3 border rounded bg-light d-inline-block">
+                <span>URL Filter:</span>
+                <input type="text" class="form-control d-inline-block w-50" value="" id="urlMatch"></input>
+                <button onclick="fetchData()" class="btn btn-primary">Update</button>
+            </div>
         </div>
-    </div>
 
-    <div>
-        <canvas id="chartByDay"></canvas>
-        <canvas id="chartByHour"></canvas>
+        <div>
+            <canvas id="chartByDay"></canvas>
+            <canvas id="chartByHour"></canvas>
+        </div>
     </div>
 
     <script>
