@@ -47,11 +47,11 @@ if ($logFilePath == null) {
 echo json_encode(
     [
         "guid" => bin2hex(random_bytes(16)),
-        "timestamp" => $timestamp->format("c"),
-        "ip" => $ip,
-        "url" => $url,
-        "ref" => $referrer,
-        "agent" => $_SERVER['HTTP_USER_AGENT'],
+        "timestamp" => $record->timestamp->format("c"),
+        "ip" => $record->ip,
+        "url" => $record->url,
+        "ref" => $record->referrer,
+        "agent" => $record->agent,
         "logFilePath" => $logFilePath,
     ]
 );
