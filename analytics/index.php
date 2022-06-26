@@ -1,16 +1,21 @@
 <?php
 
-require_once __DIR__ . "/../../lib.php";
-require_once __DIR__ . "/../../database.php";
-
-header("Access-Control-Allow-Origin: *");
-header('Content-Type: application/json');
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
+    echo file_get_contents("home.html");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] != "POST") {
     http_response_code(400);
-    echo "POST required";
+    echo $_SERVER['REQUEST_METHOD'] . " not supported";
     exit;
 }
+
+require_once "lib.php";
+require_once "database.php";
+
+header("Access-Control-Allow-Origin: *");
+header('Content-Type: application/json');
 
 $posts = json_decode(file_get_contents('php://input'), true);
 if ($posts == null) {

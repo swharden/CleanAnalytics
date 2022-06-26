@@ -1,7 +1,12 @@
-POST http://localhost/analytics/log/v1/ HTTP/1.1
+### POST to log a telemetry event
+POST http://localhost/analytics/ HTTP/1.1
 content-type: application/json
 
 {
     "url": "demo URL",
     "ref": "demo referrer"
 }
+
+### GET shows an informative HTML page
+GET http://localhost/analytics/ HTTP/1.1
+content-type: application/json
