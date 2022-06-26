@@ -16,5 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: ⚙️ Install composer
         uses: php-actions/composer@v5
+        with:
+          php_version: "7.4"
       - name: 🧪 Run Tests
         run: ./vendor/bin/phpunit -vvv
