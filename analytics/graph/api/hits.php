@@ -28,9 +28,4 @@ class LogLine
         $this->agent = $parts[4];
         $this->isValid = true;
     }
-
-    public function __toString()
-    {
-        return $this->time;
-    }
 }
