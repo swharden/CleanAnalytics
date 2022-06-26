@@ -8,18 +8,13 @@
 * Live dashboard updates in real time as new pages are viewed
 
 ### Installation
-* Copy the `analytics/` folder to `https://example.com/analytics/`
-* Add the following HTML to any page you wish to track
+
+* Copy the `analytics/` folder to your website
+* Edit [`log.js`](log.js) to point to your domain
+* Add the logging script to any HTML page you wish to track
 
 ```html
-<script>
-    fetch('https://example.com/analytics/log/v1/',
-    {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify({ url: window.location.href, ref: document.referrer }),
-    });
-</script>
+<script src="https://example.com/analytics/log.js"></script>
 ```
 
 ### Development Environment
