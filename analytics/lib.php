@@ -24,7 +24,7 @@ class PageRecord
     ) {
         $this->ip = $ip;
         $this->timestamp = $timestamp;
-        $this->url =  $url;
+        $this->url = $url;
         $this->referrer = $referrer;
         $this->agent = $agent;
     }
