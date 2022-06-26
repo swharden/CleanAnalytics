@@ -26,7 +26,7 @@ function writeToLogFile(PageRecord $record, $logFilePath = null): string
     return $success ? $logFilePath : null;
 }
 
-function getLatestRecords(int $maxCount): array
+function getLatestRecords(int $maxCount, bool $anonymize = true): array
 {
     $logFilePaths = glob(__DIR__ . '/logs/*.txt');
     rsort($logFilePaths);
@@ -41,7 +41,7 @@ function getLatestRecords(int $maxCount): array
         }
 
         $timestamp = new DateTimeImmutable($parts[0]);
-        $ip = $parts[1];
+        $ip = $anonymize ? anonymizeIp($parts[1]) : $parts[1];
         $url = $parts[2];
         $ref = $parts[3];
         $agent = $parts[4];

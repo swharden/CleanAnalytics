@@ -54,3 +54,15 @@ function getSanitizedString($text, bool $whitespaceAllowed = false): string
     }
     return $text;
 }
+
+function anonymizeIp(string $ip): string
+{
+    $parts = explode(".", $ip);
+    if (count($parts) != 4) {
+        return "IP FORMAT ERROR";
+    }
+
+    $parts[2] = "xx" . intval($parts[2]) % 10;
+    $parts[3] = "xx" . intval($parts[3]) % 10;
+    return implode(".", $parts);
+}
