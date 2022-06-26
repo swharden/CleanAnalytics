@@ -10,3 +10,11 @@ content-type: application/json
 ### GET shows an informative HTML page
 GET http://localhost/analytics/ HTTP/1.1
 content-type: application/json
+
+### Query with a count
+POST http://localhost/analytics/query/latest/ HTTP/1.1
+content-type: application/json
+
+{
+    "count": "30"
+}
