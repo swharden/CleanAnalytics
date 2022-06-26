@@ -13,6 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] != "POST") {
 }
 
 $posts = json_decode(file_get_contents('php://input'), true);
+if ($posts == null) {
+    http_response_code(400);
+    echo "invalid JSON body";
+    exit;
+}
 
 $requiredPostVariables = ['url', 'ref', 'agent'];
 foreach ($requiredPostVariables as $varName) {
