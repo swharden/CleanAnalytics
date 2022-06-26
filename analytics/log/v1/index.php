@@ -35,7 +35,7 @@ $agent = $_SERVER['HTTP_USER_AGENT'];
 $timestamp = new DateTimeImmutable();
 
 $record = new PageRecord($ip, $url, $referrer, $agent, $timestamp);
-
+$record = getSanitizedRecord($record);
 $logFilePath = writeToLogFile($record);
 
 if ($logFilePath == null) {
