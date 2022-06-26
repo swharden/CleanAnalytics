@@ -31,10 +31,15 @@ if ($count == 0) {
     exit;
 }
 
+$timeStart = microtime(true);
+$records = getLatestRecords($count);
+$timeElapsed = microtime(true) - $timeStart;
+
 echo json_encode(
     [
         "guid" => bin2hex(random_bytes(16)),
         "count" => intval($count),
-        "records" => getLatestRecords($count),
+        "records" => $records,
+        "elapsed" => $timeElapsed,
     ]
 );
