@@ -1,7 +1,7 @@
 <?php
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 /**
@@ -44,7 +44,7 @@ function getSanitizedRecord(PageRecord $record): PageRecord
     );
 }
 
-function getSanitizedString(string $text, bool $whitespaceAllowed = false): string
+function getSanitizedString($text, bool $whitespaceAllowed = false): string
 {
     $text = strip_tags($text);
     $text = str_replace("\r", "", $text);
@@ -53,4 +53,16 @@ function getSanitizedString(string $text, bool $whitespaceAllowed = false): stri
         $text = str_replace(" ", "", $text);
     }
     return $text;
+}
+
+function anonymizeIp(string $ip): string
+{
+    $parts = explode(".", $ip);
+    if (count($parts) != 4) {
+        return "IP FORMAT ERROR";
+    }
+
+    $parts[2] = "xx" . intval($parts[2]) % 10;
+    $parts[3] = "xx" . intval($parts[3]) % 10;
+    return implode(".", $parts);
 }

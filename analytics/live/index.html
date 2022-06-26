@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Live Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .breakable {
+            word-break: break-all;
+        }
+
+        .unbreakable {
+            white-space: nowrap;
+        }
+
+        .newRow {
+            background-color: #FFFF0022;
+        }
+    </style>
+
+    <script>
+        function clearRows() {
+            document.getElementById("tbody").innerHTML = "";
+        }
+
+        function insertRow(timestamp, ip, url, ref, agent) {
+            const tr = document.createElement("tr");
+
+            const tdAge = document.createElement("td");
+            const ageSec = (new Date() - timestamp) / 1000;
+            if (ageSec < 60) {
+                tdAge.innerText = Math.round(ageSec) + "sec";
+                tr.classList.add("newRow");
+            } else if (ageSec < 60 * 60) {
+                tdAge.innerText = Math.round(ageSec / 60) + "min";
+            } else {
+                tdAge.innerText = Math.round(ageSec / 60 / 60) + "hr";
+            }
+            tr.appendChild(tdAge);
+
+            const tdIP = document.createElement("td");
+            const aIP = document.createElement("a");
+            aIP.href = "https://www.ip2location.com/demo/" + String(ip).replaceAll("x", "");
+            aIP.innerText = ip;
+            tdIP.appendChild(aIP);
+            tr.appendChild(tdIP);
+
+            const tdUrl = document.createElement("td");
+            const aUrl = document.createElement("a");
+            aUrl.href = url;
+            aUrl.innerText = url;
+            tdUrl.appendChild(aUrl);
+            tr.appendChild(tdUrl);
+
+            const tdRef = document.createElement("td");
+            const aRef = document.createElement("a");
+            aRef.href = ref;
+            aRef.innerText = ref;
+            tdRef.appendChild(aRef);
+            tr.appendChild(tdRef);
+
+            const tdAgent = document.createElement("td");
+            tdAgent.innerText = agent;
+            tr.appendChild(tdAgent);
+
+            document.getElementById("tbody").appendChild(tr);
+        }
+
+        function update() {
+            fetch('/analytics/query/latest/',
+                {
+                    method: 'POST',
+                    mode: 'cors',
+                    body: JSON.stringify({ count: 20 }),
+                })
+                .then(response => {
+                    clearRows();
+                    if (response.status == 200) {
+                        response.json().then(json => {
+                            const records = json["records"];
+                            records.map(record => {
+                                const timestamp = Date.parse(record["timestamp"]["date"] + " GMT");
+                                const ip = record["ip"];
+                                const url = record["url"];
+                                const ref = record["referrer"];
+                                const agent = record["agent"];
+                                insertRow(timestamp, ip, url, ref, agent);
+                            });
+                            const elapsedMilliseconds = json["elapsed"] * 1000;
+                            const time = new Date().toLocaleTimeString();
+                            document.getElementById("update-message").innerText =
+                                `Updated: ${time} \n` +
+                                `Query time: ${elapsedMilliseconds.toFixed(2)} ms`;
+                        });
+                    } else {
+                        response.text().then(text => {
+                            console.log(text);
+                            document.getElementById("update-message").innerText = text;
+                        });
+                    }
+                });
+        }
+
+        function updateAutomatically() {
+            if (document.getElementById("update-checkbox").checked) {
+                update();
+            }
+        }
+    </script>
+</head>
+
+<body onload="update();">
+
+    <div class="m-3">
+        <h1>Clean Analytics: Live Dashboard</h1>
+    </div>
+
+    <div class="m-3">
+
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="update-checkbox">
+            <label class="form-check-label" for="update-checkbox">Update every 10 seconds</label>
+        </div>
+        <div>
+            <button onclick="update();" class="btn btn-primary">Update Now</button>
+        </div>
+
+        <div>
+            <code id="update-message">
+                Not yet updated...
+            </code>
+        </div>
+    </div>
+
+    <table class="table table-hover unbreakable" style="font-size: .8em;">
+        <thead>
+            <tr>
+                <th scope="col">Age</th>
+                <th scope="col">IP</th>
+                <th scope="col">URL</th>
+                <th scope="col">Referrer</th>
+                <th scope="col">Agent</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+
+    <script>
+        var timer = setInterval(updateAutomatically, 10000);
+    </script>
+
+</body>
+
+</html>
