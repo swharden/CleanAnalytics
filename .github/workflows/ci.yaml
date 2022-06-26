@@ -15,10 +15,9 @@ jobs:
       - name: 🛒 Checkout
         uses: actions/checkout@v2
       - name: ⚙️ Install composer
-        uses: php-actions/composer@v6
+        uses: php-actions/composer@v5
         with:
           php_version: "7.4"
-          version: 1
       - name: Static code analysis
         run: ./vendor/bin/psalm --output-format=github
       - name: 🧪 Run Tests
