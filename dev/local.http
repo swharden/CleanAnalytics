@@ -3,6 +3,5 @@ content-type: application/json
 
 {
     "url": "demo URL",
-    "ref": "demo referrer",
-    "agent": "demo agent"
+    "ref": "demo referrer"
 }

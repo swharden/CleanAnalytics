@@ -19,7 +19,7 @@ if ($posts == null) {
     exit;
 }
 
-$requiredPostVariables = ['url', 'ref', 'agent'];
+$requiredPostVariables = ['url', 'ref'];
 foreach ($requiredPostVariables as $varName) {
     if (!isset($posts[$varName])) {
         http_response_code(400);
@@ -31,7 +31,7 @@ foreach ($requiredPostVariables as $varName) {
 $ip = $_SERVER['REMOTE_ADDR'];
 $url = $posts['url'];
 $referrer = $posts['ref'];
-$agent = $posts['agent'];
+$agent = $_SERVER['HTTP_USER_AGENT'];
 $timestamp = new DateTimeImmutable();
 
 $record = new PageRecord($ip, $url, $referrer, $agent, $timestamp);
