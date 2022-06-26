@@ -7,7 +7,7 @@ require_once __DIR__ . '/lib.php';
  * If logging is successful the path to the log file is returned.
  * If logging fails null is returned.
  */
-function writeToLogFile(PageRecord $record, $logFilePath = null): string
+function writeToLogFile(PageRecord $record, string $logFilePath = null): ?string
 {
     $logLine = "" .
         $record->timestamp->format('c') . " " .

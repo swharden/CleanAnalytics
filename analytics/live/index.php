@@ -1,11 +1,11 @@
 <?php
 
-function humanTiming($time)
+function humanTiming(int $time): string
 {
 
     $time = time() - $time; // to get the time since that moment
     $time = ($time < 1) ? 1 : $time;
-    $tokens = array(
+    $tokens = [
         31536000 => 'year',
         2592000 => 'month',
         604800 => 'week',
@@ -13,20 +13,23 @@ function humanTiming($time)
         3600 => 'hr',
         60 => 'min',
         1 => 'sec'
-    );
+    ];
 
     foreach ($tokens as $unit => $text) {
         if ($time < $unit) continue;
         $numberOfUnits = floor($time / $unit);
         return $numberOfUnits . ' ' . $text;
     }
+
+    return '0';
 }
 
 function getTableRow(string $line): string
 {
     $parts = explode(" ", $line, 5);
-    if (count($parts) != 5)
-        return false;
+    if (count($parts) != 5) {
+        return '';
+    }
 
     $entryTime = strtotime($parts[0]);
     $ageSec = time() - $entryTime;
@@ -45,10 +48,11 @@ function getTableRow(string $line): string
     $html .= "<td><a href='$ref' class='text-dark'>$ref</a></td>";
     $html .= "<td>$agent</td>";
     $html .= "</tr>";
+
     return $html;
 }
 
-function getTableRows($linesToShow = 20): string
+function getTableRows(int $linesToShow = 20): string
 {
     $logFilePaths = glob("../logs/*.txt");
     sort($logFilePaths);

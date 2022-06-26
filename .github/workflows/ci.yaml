@@ -16,5 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: ⚙️ Install composer
         uses: php-actions/composer@v5
+      - name: Static code analysis
+        run: ./vendor/bin/psalm --output-format=github
       - name: 🧪 Run Tests
         run: ./vendor/bin/phpunit -vvv

@@ -2,7 +2,7 @@
 
 class LogLine
 {
-    public string $time;
+    public int $time;
     public string $hourCode;
     public string $dayCode;
     public string $ip;
@@ -11,7 +11,7 @@ class LogLine
     public string $agent;
     public bool $isValid;
 
-    function LogLine(string $line)
+    function __construct(string $line)
     {
         $parts = explode(" ", $line, 5);
         if (count($parts) != 5) {
@@ -19,7 +19,13 @@ class LogLine
             return;
         }
 
-        $this->time = strtotime($parts[0]);
+        $time = strtotime($parts[0]);
+        if ($time === false) {
+            $this->isValid = false;
+            return;
+        }
+
+        $this->time = $time;
         $this->hourCode = substr($parts[0], 0, 13);
         $this->dayCode = substr($parts[0], 0, 10);
         $this->ip = $parts[1];
@@ -31,6 +37,6 @@ class LogLine
 
     public function __toString()
     {
-        return $this->time;
+        return (string) $this->time;
     }
 }

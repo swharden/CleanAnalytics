@@ -1,7 +1,7 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 /**
@@ -44,7 +44,7 @@ function getSanitizedRecord(PageRecord $record): PageRecord
     );
 }
 
-function getSanitizedString($text, bool $whitespaceAllowed = false): string
+function getSanitizedString(string $text, bool $whitespaceAllowed = false): string
 {
     $text = strip_tags($text);
     $text = str_replace("\r", "", $text);
