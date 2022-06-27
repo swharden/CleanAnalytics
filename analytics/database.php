@@ -28,6 +28,10 @@ function writeToLogFile(PageRecord $record, string $logFilePath = null): ?string
     return $success ? $logFilePath : null;
 }
 
+/**
+ * Returns the latest N records in reverse chronological order.
+ * If the records file only has M entries, a maximum of M results will be returned.
+ */
 function getLatestRecords(int $maxCount, bool $anonymize = true): array
 {
     include_once __DIR__ . '/lib.php';
@@ -58,4 +62,30 @@ function getLatestRecords(int $maxCount, bool $anonymize = true): array
     }
 
     return array_reverse($records);
+}
+
+/**
+ * Return array of log records from a database log file
+ */
+function getRecordsFromFile(string $logFilePath): array
+{
+    $records = [];
+
+    $lines = explode("\n", file_get_contents($logFilePath));
+    foreach ($lines as $line) {
+        $parts = explode(" ", $line, 5);
+        if (count($parts) != 5) {
+            continue;
+        }
+
+        $timestamp = new \DateTimeImmutable($parts[0]);
+        $ip = $parts[1];
+        $url = $parts[2];
+        $ref = $parts[3];
+        $agent = $parts[4];
+        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
+        $records[] = $record;
+    }
+
+    return $records;
 }

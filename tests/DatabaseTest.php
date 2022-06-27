@@ -29,4 +29,10 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($expectedLineCount, $actualLineCount);
     }
+
+    public function testGetAllRecordsReturnsLotsOfRecords()
+    {
+        $records = getAllRecords();
+        $this->assertGreaterThan(10_000, count($records));
+    }
 }
