@@ -14,5 +14,12 @@
         <exclude name="PEAR.Commenting.FunctionComment.Missing" />
         <exclude name="PEAR.Commenting.FunctionComment.MissingReturn" />
         <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag" />
+        
+        <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingPackageTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingLinkTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingVersion"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingAuthorTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingLicenseTag"/>
     </rule>
 </ruleset>
