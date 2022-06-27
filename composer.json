@@ -15,6 +15,9 @@
         ],
         "analyze": [
             "vendor/bin/psalm --no-cache"
+        ],
+        "lint": [
+            "vendor/bin/phpcs -s --extensions=php --standard=PSR2 ./analytics/"
         ]
     }
 }
