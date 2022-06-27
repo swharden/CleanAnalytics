@@ -1,5 +1,7 @@
 <?php
 
+namespace CleanAnalytics;
+
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     echo file_get_contents("home.html");
     exit;
@@ -37,7 +39,7 @@ $ip = $_SERVER['REMOTE_ADDR'];
 $url = $posts['url'];
 $referrer = $posts['ref'];
 $agent = $_SERVER['HTTP_USER_AGENT'];
-$timestamp = new DateTimeImmutable();
+$timestamp = new \DateTimeImmutable();
 
 $record = new PageRecord($ip, $url, $referrer, $agent, $timestamp);
 $record = getSanitizedRecord($record);
