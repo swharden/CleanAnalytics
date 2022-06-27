@@ -17,6 +17,19 @@
 <script src="https://example.com/analytics/log.js"></script>
 ```
 
+### Authentication
+
+Since hard folders are currently used instead of active routing, a `.htaccess` file can be placed in any folder to protect it behind a login.
+
+```
+AuthName "Login Required"
+AuthType Basic
+AuthUserFile /full/path/to/.htpasswd
+Require valid-user
+```
+
+Use a [htpasswd generator](https://hostingcanada.org/htpasswd-generator/) to generate contents of the `.htpasswd` file.
+
 ### Development Environment
 * Testing and linting requires [Composer](https://getcomposer.org/download/)
 * Download dependencies: `composer install`
