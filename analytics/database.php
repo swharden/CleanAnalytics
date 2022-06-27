@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/lib.php';
+namespace CleanAnalytics;
 
 /**
  * Log a record by appending it as text to a file named by date.
@@ -9,6 +9,8 @@ require_once __DIR__ . '/lib.php';
  */
 function writeToLogFile(PageRecord $record, string $logFilePath = null): ?string
 {
+    include_once __DIR__ . '/lib.php';
+
     $logLine = "" .
         $record->timestamp->format('c') . " " .
         $record->ip . " " .
@@ -28,6 +30,8 @@ function writeToLogFile(PageRecord $record, string $logFilePath = null): ?string
 
 function getLatestRecords(int $maxCount, bool $anonymize = true): array
 {
+    include_once __DIR__ . '/lib.php';
+
     $logFilePaths = glob(__DIR__ . '/logs/*.txt');
     rsort($logFilePaths);
     $logFilePath = $logFilePaths[0];
@@ -40,7 +44,7 @@ function getLatestRecords(int $maxCount, bool $anonymize = true): array
             continue;
         }
 
-        $timestamp = new DateTimeImmutable($parts[0]);
+        $timestamp = new \DateTimeImmutable($parts[0]);
         $ip = $anonymize ? anonymizeIp($parts[1]) : $parts[1];
         $url = $parts[2];
         $ref = $parts[3];

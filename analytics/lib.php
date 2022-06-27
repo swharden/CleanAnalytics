@@ -1,26 +1,31 @@
 <?php
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+namespace CleanAnalytics;
+
+function reportAllErrors()
+{
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+}
 
 /**
  * Contains information about a single page request event.
  */
 class PageRecord
 {
-    public DateTimeImmutable $timestamp;
+    public \DateTimeImmutable $timestamp;
     public string $ip;
     public string $url;
     public string $referrer;
     public string $agent;
 
-    function __construct(
+    public function __construct(
         string $ip,
         string $url,
         string $referrer,
         string $agent,
-        DateTimeImmutable $timestamp
+        \DateTimeImmutable $timestamp
     ) {
         $this->ip = $ip;
         $this->timestamp = $timestamp;

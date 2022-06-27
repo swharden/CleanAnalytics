@@ -32,7 +32,7 @@ if ($count < 1) {
 }
 
 $timeStart = microtime(true);
-$records = getLatestRecords($count);
+$records = \CleanAnalytics\getLatestRecords($count);
 $timeElapsed = microtime(true) - $timeStart;
 
 echo json_encode(

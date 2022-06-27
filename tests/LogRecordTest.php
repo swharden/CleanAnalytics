@@ -1,5 +1,7 @@
 <?php
 
+namespace CleanAnalytics;
+
 require_once __DIR__ . '/../analytics/lib.php';
 
 class LogEndpointTest extends \PHPUnit\Framework\TestCase
@@ -10,7 +12,7 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $url = "https://foo\nbar\r.com/baz";
         $ref = "https://exa\nmple\r.com/";
         $agent = "some user agent";
-        $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
+        $timestamp = new \DateTimeImmutable('2022-02-02T15:55:55');
         $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
         $record = getSanitizedRecord($record);
 
@@ -30,7 +32,7 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $url = "https://foo bar .com/baz";
         $ref = "https://exa mple .com/";
         $agent = "some user agent";
-        $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
+        $timestamp = new \DateTimeImmutable('2022-02-02T15:55:55');
         $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
         $record = getSanitizedRecord($record);
 
@@ -47,7 +49,7 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $url = "https://foo<b>HTML</b>bar<b>HTML</b>.com/baz";
         $ref = "https://exa<b>HTML</b>mple<b>HTML</b>.com/";
         $agent = "some user agent";
-        $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
+        $timestamp = new \DateTimeImmutable('2022-02-02T15:55:55');
         $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
         $record = getSanitizedRecord($record);
 
@@ -63,7 +65,7 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $url = "https://foobar.com/baz";
         $ref = "https://example.com/";
         $agent = "some \nuser\r agent";
-        $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
+        $timestamp = new \DateTimeImmutable('2022-02-02T15:55:55');
         $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
         $record = getSanitizedRecord($record);
 
@@ -78,7 +80,7 @@ class LogEndpointTest extends \PHPUnit\Framework\TestCase
         $url = "https://foobar.com/baz";
         $ref = "https://example.com/";
         $agent = "some user<b>asdf</b> agent";
-        $timestamp = new DateTimeImmutable('2022-02-02T15:55:55');
+        $timestamp = new \DateTimeImmutable('2022-02-02T15:55:55');
         $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
         $record = getSanitizedRecord($record);
 
