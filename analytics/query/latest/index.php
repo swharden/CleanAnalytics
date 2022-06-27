@@ -25,7 +25,7 @@ if (!isset($posts['count'])) {
     exit;
 }
 $count = intval($posts['count']);
-if ($count == 0) {
+if ($count < 1) {
     http_response_code(400);
     echo "invalid count";
     exit;
