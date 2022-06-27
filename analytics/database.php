@@ -89,3 +89,20 @@ function getRecordsFromFile(string $logFilePath): array
 
     return $records;
 }
+
+/**
+ * Return every record in the database in chronological order.
+ * If a match string is supplied, only return records that satisfy the match.
+ */
+function getAllRecords(?string $matchUrl = null): array
+{
+    include_once __DIR__ . '/lib.php';
+    $allRecords = [];
+    $logFilePaths = glob(__DIR__ . '/logs/*.txt');
+    sort($logFilePaths);
+    foreach ($logFilePaths as $logFilePath) {
+        $fileRecords = getRecordsFromFile($logFilePath);
+        $allRecords = array_merge($allRecords, $fileRecords);
+    }
+    return $allRecords;
+}
