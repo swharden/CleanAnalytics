@@ -79,7 +79,7 @@ function getRecordsFromFile(string $logFilePath): array
  * Return every record in the database in chronological order.
  * If a match string is supplied, only return records that satisfy the match.
  */
-function getAllRecords(int $maxDays = 9999, ?string $matchUrl = null): array
+function getAllRecords(): array
 {
     include_once __DIR__ . '/lib.php';
     $allRecords = [];

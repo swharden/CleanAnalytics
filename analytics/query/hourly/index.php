@@ -40,7 +40,7 @@ if ($days < 1) {
 }
 
 $timeStart = microtime(true);
-$allRecords = getAllRecords($days);
+$allRecords = getAllRecords();
 $hourlyCounts = getHourlyCounts($allRecords);
 $timeElapsed = microtime(true) - $timeStart;
 
