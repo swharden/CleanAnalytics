@@ -1,4 +1,4 @@
-# Clean Analytics
+# <img src="dev/logo/logo.svg" width="24" height="24"> Clean Analytics
 **Clean Analytics is a privacy-focused system for logging webpage and application telemetry.** Events are recording using HTTP requests, logged to a database, queryable, and can be inspected in real time from a graphical dashboard. Clean Analytics was created to be a simpler alternative to Google Analytics that never uses cookies and has ultimate respect for user privacy.
 
 ### Features
