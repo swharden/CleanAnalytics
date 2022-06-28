@@ -7,14 +7,18 @@ content-type: application/json
     "ref": "demo referrer"
 }
 
-### GET shows an informative HTML page
-GET http://localhost/analytics/ HTTP/1.1
-content-type: application/json
-
-### Query with a count
+### Query: Latest
 POST http://localhost/analytics/query/latest/ HTTP/1.1
 content-type: application/json
 
 {
     "count": "30"
+}
+
+### Query: Hourly
+POST http://localhost/analytics/query/hourly/ HTTP/1.1
+content-type: application/json
+
+{
+    "days": 30
 }
