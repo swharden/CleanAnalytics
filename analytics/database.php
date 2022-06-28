@@ -32,7 +32,7 @@ function writeToLogFile(PageRecord $record, string $logFilePath = null): ?string
  * Returns the latest N records in reverse chronological order.
  * If the records file only has M entries, a maximum of M results will be returned.
  */
-function getLatestRecords(int $maxCount, bool $anonymize = true): array
+function getLatestRecords(int $maxCount): array
 {
     include_once __DIR__ . '/lib.php';
 
@@ -40,22 +40,7 @@ function getLatestRecords(int $maxCount, bool $anonymize = true): array
     rsort($logFilePaths);
     $logFilePath = $logFilePaths[0];
 
-    $records = [];
-    $lines = explode("\n", file_get_contents($logFilePath));
-    foreach ($lines as $line) {
-        $parts = explode(" ", $line, 5);
-        if (count($parts) != 5) {
-            continue;
-        }
-
-        $timestamp = new \DateTimeImmutable($parts[0]);
-        $ip = $anonymize ? anonymizeIp($parts[1]) : $parts[1];
-        $url = $parts[2];
-        $ref = $parts[3];
-        $agent = $parts[4];
-        $record = new PageRecord($ip, $url, $ref, $agent, $timestamp);
-        $records[] = $record;
-    }
+    $records = getRecordsFromFile($logFilePath);
 
     if (count($records) > $maxCount) {
         $records = array_slice($records, count($records) - $maxCount - 1);

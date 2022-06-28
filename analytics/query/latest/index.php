@@ -1,5 +1,7 @@
 <?php
 
+namespace CleanAnalytics;
+
 if ($_SERVER['REQUEST_METHOD'] != "POST") {
     http_response_code(400);
     echo "POST required supported";
@@ -32,7 +34,8 @@ if ($count < 1) {
 }
 
 $timeStart = microtime(true);
-$records = \CleanAnalytics\getLatestRecords($count);
+$records = getLatestRecords($count);
+$records = anonymizeRecords($records);
 $timeElapsed = microtime(true) - $timeStart;
 
 echo json_encode(

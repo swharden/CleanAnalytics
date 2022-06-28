@@ -71,3 +71,11 @@ function anonymizeIp(string $ip): string
     $parts[3] = "xx" . intval($parts[3]) % 10;
     return implode(".", $parts);
 }
+
+function anonymizeRecords(array $records): array
+{
+    foreach ($records as $record) {
+        $record->ip = anonymizeIp($record->ip);
+    }
+    return $records;
+}
