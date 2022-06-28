@@ -131,6 +131,9 @@ function getDailyCounts(array $records): array
 
     foreach ($records as $record) {
         $dayCode = $record->timestamp->format("Y-m-d");
+        if (!array_key_exists($dayCode, $counts)) {
+            $counts[$dayCode] = 0;
+        }
         $counts[$dayCode] += 1;
     }
 
@@ -158,6 +161,9 @@ function getHourlyCounts(array $records): array
 
     foreach ($records as $record) {
         $hourCode = $record->timestamp->format("Y-m-d\TH");
+        if (!array_key_exists($hourCode, $counts)) {
+            $counts[$hourCode] = 0;
+        }
         $counts[$hourCode] += 1;
     }
 
