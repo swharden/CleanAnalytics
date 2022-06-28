@@ -15,21 +15,21 @@
         }
 
         function fetchDataByDay() {
-            fetch('../query/daily/', {
+            fetch('../query/count/', {
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ days: 30 }),
+                body: JSON.stringify({ days: 30, bin: "day" }),
             }).then(response => response.json())
-                .then(data => updateChartByHour(data["record-count-by-day"], "Hits Per Day", "chartByDay"));
+                .then(data => updateChartByHour(data["counts"], "Pages Per Day", "chartByDay"));
         }
 
         function fetchDataByHour() {
-            fetch('../query/hourly/', {
+            fetch('../query/count/', {
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ days: 30 }),
+                body: JSON.stringify({ days: 30, bin: "hour" }),
             }).then(response => response.json())
-                .then(data => updateChartByHour(data["record-count-by-hour"], "Hits Per Hour", "chartByHour"));
+                .then(data => updateChartByHour(data["counts"], "Pages Per Hour", "chartByHour"));
         }
 
         function updateChartByHour(binnedCounts, yLabel, chartID) {
