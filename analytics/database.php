@@ -93,6 +93,23 @@ function getAllRecords(): array
     return $allRecords;
 }
 
+function getRecordsMatchingUrl(array $records, ?string $filterUrl): array
+{
+    if ($filterUrl == null) {
+        return $records;
+    }
+
+    $matchingRecords = [];
+
+    foreach ($records as $record) {
+        if (mb_strpos($record->url, $filterUrl) !== false) {
+            $matchingRecords[] = $record;
+        }
+    }
+
+    return $matchingRecords;
+}
+
 /**
  * Return an array of total number of hits by day.
  * Day code is a string formatted like: '2022-01-03'
