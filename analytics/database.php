@@ -94,15 +94,43 @@ function getRecordsFromFile(string $logFilePath): array
  * Return every record in the database in chronological order.
  * If a match string is supplied, only return records that satisfy the match.
  */
-function getAllRecords(?string $matchUrl = null): array
+function getAllRecords(int $maxDays = 9999, ?string $matchUrl = null): array
 {
     include_once __DIR__ . '/lib.php';
     $allRecords = [];
     $logFilePaths = glob(__DIR__ . '/logs/*.txt');
     sort($logFilePaths);
     foreach ($logFilePaths as $logFilePath) {
+        // TODO: skip log files older than the given number of days
         $fileRecords = getRecordsFromFile($logFilePath);
         $allRecords = array_merge($allRecords, $fileRecords);
     }
     return $allRecords;
+}
+
+/**
+ * Return an array of total number of hits by hour.
+ * Hour code is a string formatted like: '2022-01-03T17'
+ */
+function getHourlyCounts(array $records): array
+{
+    $counts = [];
+
+    // initialize counter to 0 for all hours
+    $oldestRecord = $records[0];
+    $newestRecord = $records[count($records) - 1];
+    $hrInterval = new \DateInterval('PT1H');
+    $t = $oldestRecord->timestamp;
+    while ($t <= $newestRecord->timestamp) {
+        $hourCode = $t->format("Y-m-d\TH");
+        $counts[$hourCode] = 0;
+        $t = $t->add($hrInterval);
+    }
+
+    foreach ($records as $record) {
+        $hourCode = $record->timestamp->format("Y-m-d\TH");
+        $counts[$hourCode] += 1;
+    }
+
+    return $counts;
 }
