@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - Clean Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function fetchData() {
+            fetchDataByDay();
+            fetchDataByHour();
+        }
+
+        function fetchDataByDay() {
+            fetch('../query/daily/', {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify({ days: 30 }),
+            }).then(response => response.json())
+                .then(data => updateChartByHour(data["record-count-by-day"], "Hits Per Day", "chartByDay"));
+        }
+
+        function fetchDataByHour() {
+            fetch('../query/hourly/', {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify({ days: 30 }),
+            }).then(response => response.json())
+                .then(data => updateChartByHour(data["record-count-by-hour"], "Hits Per Hour", "chartByHour"));
+        }
+
+        function updateChartByHour(binnedCounts, yLabel, chartID) {
+            const labels = Object.keys(binnedCounts);
+            const values = Object.values(binnedCounts);
+
+            // "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+            // "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
+
+            const chartData = {
+                labels: labels,
+                legend: {
+                    display: false
+                },
+                datasets: [{
+                    label: "Page Views",
+                    backgroundColor: '#1f77b4',
+                    borderColor: '#1f77b4',
+                    data: values,
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: chartData,
+                options: {
+                    scales: {
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: yLabel
+                            },
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    }
+                }
+            };
+
+            const oldChart = Chart.getChart(chartID);
+            if (oldChart)
+                oldChart.destroy();
+
+            const newChart = new Chart(
+                document.getElementById(chartID),
+                config
+            );
+
+        }
+    </script>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <button onclick="fetchData()" class="btn btn-primary my-4">Update</button>
+
+        <div>
+            <canvas id="chartByDay"></canvas>
+            <canvas id="chartByHour"></canvas>
+        </div>
+    </div>
+
+    <script>
+        fetchData();
+    </script>
+
+</body>
+
+</html>
