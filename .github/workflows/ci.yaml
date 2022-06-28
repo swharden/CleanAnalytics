@@ -14,11 +14,13 @@ jobs:
     steps:
       - name: 🛒 Checkout
         uses: actions/checkout@v2
-      - name: ⚙️ Install composer
+      - name: ⚙️ Setup
         uses: php-actions/composer@v5
         with:
           php_version: "7.4"
-      - name: Static code analysis
-        run: ./vendor/bin/psalm --output-format=github
-      - name: 🧪 Run Tests
+      - name: 🧪 Test
         run: ./vendor/bin/phpunit -vvv
+      - name: 🔍 Analyze
+        run: ./vendor/bin/psalm --output-format=github
+      - name: 🧪 Lint
+        run: ./vendor/bin/phpcs -s --extensions=php --standard=PSR2 ./analytics/
