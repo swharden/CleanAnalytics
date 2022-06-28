@@ -17,8 +17,6 @@
 <script src="https://example.com/analytics/log.js"></script>
 ```
 
-Use a [htpasswd generator](https://hostingcanada.org/htpasswd-generator/) to generate contents of the `.htpasswd` file.
-
 ### Development Environment
 * Testing and linting requires [Composer](https://getcomposer.org/download/)
 * Download dependencies: `composer install`
