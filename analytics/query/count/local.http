@@ -1,0 +1,27 @@
+### Hits by Day
+POST http://localhost/analytics/query/count/ HTTP/1.1
+content-type: application/json
+
+{
+    "days" : 30,
+    "bin" : "day"
+}
+
+### Hits by Day with URL Filter
+POST http://localhost/analytics/query/count/ HTTP/1.1
+content-type: application/json
+
+{
+    "days" : 30,
+    "bin" : "day",
+    "filter-url" : "pyabf"
+}
+
+### Hits by Hour
+POST http://localhost/analytics/query/count/ HTTP/1.1
+content-type: application/json
+
+{
+    "days" : 30,
+    "bin" : "hour"
+}
