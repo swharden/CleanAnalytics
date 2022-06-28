@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This endpoint returns the total number of logged events binned by day
+ * This endpoint returns the number of logged events binned according to user input.
  */
 
 if ($_SERVER['REQUEST_METHOD'] != "POST") {
@@ -58,7 +58,7 @@ $records = \CleanAnalytics\getRecordsMatchingUrl($records, $filterUrl);
 
 if ($bin == "day") {
     $counts = \CleanAnalytics\getDailyCounts($records);
-} else if ($bin == "hour") {
+} elseif ($bin == "hour") {
     $counts = \CleanAnalytics\getHourlyCounts($records);
 } else {
     http_response_code(400);
