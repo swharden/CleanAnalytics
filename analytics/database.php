@@ -109,6 +109,33 @@ function getAllRecords(int $maxDays = 9999, ?string $matchUrl = null): array
 }
 
 /**
+ * Return an array of total number of hits by day.
+ * Day code is a string formatted like: '2022-01-03'
+ */
+function getDailyCounts(array $records): array
+{
+    $counts = [];
+
+    // initialize counter to 0 for all hours
+    $oldestRecord = $records[0];
+    $newestRecord = $records[count($records) - 1];
+    $dayInterval = new \DateInterval('P1D');
+    $t = $oldestRecord->timestamp;
+    while ($t <= $newestRecord->timestamp) {
+        $dayCode = $t->format("Y-m-d");
+        $counts[$dayCode] = 0;
+        $t = $t->add($dayInterval);
+    }
+
+    foreach ($records as $record) {
+        $dayCode = $record->timestamp->format("Y-m-d");
+        $counts[$dayCode] += 1;
+    }
+
+    return $counts;
+}
+
+/**
  * Return an array of total number of hits by hour.
  * Hour code is a string formatted like: '2022-01-03T17'
  */

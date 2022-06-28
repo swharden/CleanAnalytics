@@ -22,3 +22,11 @@ content-type: application/json
 {
     "days": 30
 }
+
+### Query: Daily
+POST http://localhost/analytics/query/daily/ HTTP/1.1
+content-type: application/json
+
+{
+    "days": 30
+}
