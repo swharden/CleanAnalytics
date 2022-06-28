@@ -9,6 +9,12 @@
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+        function setUrlFilter(filter) {
+            document.getElementById("input-url-filter").value = filter;
+            fetchData();
+        }
+
         function fetchData() {
             fetchDataByDay();
             fetchDataByHour();
@@ -18,7 +24,11 @@
             fetch('../query/count/', {
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ days: 30, bin: "day" }),
+                body: JSON.stringify({
+                    days: 30,
+                    bin: "day",
+                    "filter-url": document.getElementById("input-url-filter").value
+                }),
             }).then(response => response.json())
                 .then(data => updateChartByHour(data["counts"], "Pages Per Day", "chartByDay"));
         }
@@ -27,7 +37,11 @@
             fetch('../query/count/', {
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ days: 30, bin: "hour" }),
+                body: JSON.stringify({
+                    days: 30,
+                    bin: "hour",
+                    "filter-url": document.getElementById("input-url-filter").value
+                }),
             }).then(response => response.json())
                 .then(data => updateChartByHour(data["counts"], "Pages Per Hour", "chartByHour"));
         }
@@ -91,12 +105,33 @@
 
 <body>
 
-
     <div class="container">
-        <button onclick="fetchData()" class="btn btn-primary my-4">Update</button>
+        <h1 class="mt-4">Clean Analytics Dashboard</h1>
 
         <div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">URL Filter</span>
+                <input type="text" class="form-control" placeholder="case sensitive" id="input-url-filter">
+                <button onclick="fetchData()" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-start flex-wrap">
+            <button onclick="setUrlFilter('')" class="btn btn-secondary m-1">All Traffic</button>
+            <button onclick="setUrlFilter('/swharden.com')" class="btn btn-secondary m-1">SWHarden.com</button>
+            <button onclick="setUrlFilter('/swharden.com/blog')" class="btn btn-secondary m-1">Blog</button>
+            <button onclick="setUrlFilter('/scottplot.net')" class="btn btn-secondary m-1">ScottPlot.NET</button>
+            <button onclick="setUrlFilter('/maui.graphics')" class="btn btn-secondary m-1">Maui.Graphics</button>
+            <button onclick="setUrlFilter('/LJPcalc')" class="btn btn-secondary m-1">LJPcalc</button>
+            <button onclick="setUrlFilter('/FSKview')" class="btn btn-secondary m-1">FSKview</button>
+            <button onclick="setUrlFilter('/qrss/plus')" class="btn btn-secondary m-1">QRSS Plus</button>
+        </div>
+
+        <div class="my-5">
             <canvas id="chartByDay"></canvas>
+        </div>
+        
+        <div class="my-5">
             <canvas id="chartByHour"></canvas>
         </div>
     </div>
