@@ -30,7 +30,7 @@
                     "filter-url": document.getElementById("input-url-filter").value
                 }),
             }).then(response => response.json())
-                .then(data => updateChartByHour(data["counts"], "Pages Per Day", "chartByDay"));
+                .then(data => updateChart(data["counts"], "Pages Per Day", "chartByDay"));
         }
 
         function fetchDataByHour() {
@@ -43,15 +43,12 @@
                     "filter-url": document.getElementById("input-url-filter").value
                 }),
             }).then(response => response.json())
-                .then(data => updateChartByHour(data["counts"], "Pages Per Hour", "chartByHour"));
+                .then(data => updateChart(data["counts"], "Pages Per Hour", "chartByHour"));
         }
 
-        function updateChartByHour(binnedCounts, yLabel, chartID) {
+        function updateChart(binnedCounts, yLabel, chartID) {
             const labels = Object.keys(binnedCounts);
             const values = Object.values(binnedCounts);
-
-            // "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
-            // "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
 
             const chartData = {
                 labels: labels,
@@ -73,6 +70,7 @@
                     scales: {
                         y: {
                             display: true,
+                            beginAtZero: true,
                             title: {
                                 display: true,
                                 text: yLabel
@@ -130,7 +128,7 @@
         <div class="my-5">
             <canvas id="chartByDay"></canvas>
         </div>
-        
+
         <div class="my-5">
             <canvas id="chartByHour"></canvas>
         </div>
