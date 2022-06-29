@@ -19,6 +19,49 @@
         function fetchData() {
             fetchDataByDay();
             fetchDataByHour();
+            fetchCountData();
+            fetchTopPages();
+        }
+
+        function fetchTopPages() {
+            fetch('../query/top/', {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify({ days: 30 }),
+            }).then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById("page-count-tbody");
+                    Object.entries(data["result-page-counts"]).map(item => {
+                        url = item[0];
+                        count = item[1];
+                        const tr = document.createElement("tr");
+
+                        const tdCount = document.createElement("td");
+                        tdCount.innerText = count;
+
+                        const tdUrl = document.createElement("td");
+                        const tdUrlLink = document.createElement("a");
+                        tdUrlLink.innerText = url;
+                        tdUrlLink.href = url;
+                        tdUrl.appendChild(tdUrlLink);
+
+                        tr.appendChild(tdCount);
+                        tr.appendChild(tdUrl);
+                        tbody.appendChild(tr);
+                    })
+                });
+        }
+
+        function fetchCountData() {
+            fetch('../query/stats/', {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify({ days: 30 }),
+            }).then(response => response.json())
+                .then(data => {
+                    document.getElementById("page-count").innerText = parseInt(data["result-page-count"]).toLocaleString();
+                    document.getElementById("user-count").innerText = parseInt(data["result-user-count"]).toLocaleString();
+                });
         }
 
         function fetchDataByDay() {
@@ -104,8 +147,32 @@
 
 <body>
 
-    <div class="container">
-        <h1 class="mt-4">Clean Analytics Dashboard</h1>
+    <div class="container" style="max-width: 1000px;">
+
+        <h3 class="mt-4">Dashboard</h3>
+
+        <div class="d-inline-block bg-light border rounded px-2 py-1 text-center m-1">
+            <div class="text-center">Pages</div>
+            <div class="fs-3" id="page-count">1,234</div>
+        </div>
+
+        <div class="d-inline-block bg-light border rounded px-2 py-1 text-center m-1">
+            <div class="text-center">Users</div>
+            <div class="fs-3" id="user-count">1,234</div>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Views</th>
+                    <th scope="col">Page</th>
+                </tr>
+            </thead>
+            <tbody id="page-count-tbody">
+            </tbody>
+        </table>
+
+        <h3 class="mt-5">Traffic Analysis</h3>
 
         <div>
             <div class="input-group mb-3">
