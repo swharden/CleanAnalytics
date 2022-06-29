@@ -185,7 +185,7 @@ function getUserCount(array $records): int
 /**
  * Return the count for each URL seen in the records sorted from highest to lowest.
  */
-function getPageCounts(array $records, int $limit = 20): array
+function getPageCounts(array $records, int $limit = 50): array
 {
     $counts = array();
     foreach ($records as $record) {
