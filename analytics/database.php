@@ -181,3 +181,32 @@ function getUserCount(array $records): int
     }
     return count($ips);
 }
+
+/**
+ * Return the count for each URL seen in the records sorted from highest to lowest.
+ */
+function getPageCounts(array $records, int $limit = 20): array
+{
+    $counts = array();
+    foreach ($records as $record) {
+        $url = $record->url;
+        $pos = strpos($url, "?");
+        if ($pos > 0) {
+            $url = substr($url, 0, $pos);
+        }
+        $url = rtrim($url, "/");
+        if (array_key_exists($url, $counts)) {
+            $counts[$url] = $counts[$url] + 1;
+        } else {
+            $counts[$url] = 1;
+        }
+    }
+
+    arsort($counts);
+
+    if (count($counts) > $limit) {
+        $counts = array_slice($counts, 0, $limit);
+    }
+
+    return $counts;
+}

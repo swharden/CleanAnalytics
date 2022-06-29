@@ -1,0 +1,6 @@
+POST http://localhost/analytics/query/top/ HTTP/1.1
+content-type: application/json
+
+{
+    "days" : 10
+}
