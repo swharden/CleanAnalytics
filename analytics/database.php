@@ -169,3 +169,15 @@ function getHourlyCounts(array $records): array
 
     return $counts;
 }
+
+/**
+ * Return the number of unique IP addresses in the given records.
+ */
+function getUserCount(array $records): int
+{
+    $ips = array();
+    foreach ($records as $record) {
+        $ips[$record->ip] = null;
+    }
+    return count($ips);
+}
