@@ -24,6 +24,14 @@
             fetchTopPages();
         }
 
+        function hideSpinner() {
+            document.getElementById("spinner").style.opacity = 0;
+        }
+
+        function showSpinner() {
+            document.getElementById("spinner").style.opacity = 1;
+        }
+
         function fetchTopPages() {
             fetch('../query/top/', {
                 method: 'POST',
@@ -79,6 +87,7 @@
         }
 
         function fetchDataByHour() {
+            showSpinner();
             fetch('../query/count/', {
                 method: 'POST',
                 mode: 'cors',
@@ -88,7 +97,8 @@
                     "filter-url": document.getElementById("input-url-filter").value
                 }),
             }).then(response => response.json())
-                .then(data => updateChart(data["counts"], "Pages Per Hour", "chartByHour"));
+                .then(data => updateChart(data["counts"], "Pages Per Hour", "chartByHour"))
+                .then(() => hideSpinner());
         }
 
         function updateChart(binnedCounts, yLabel, chartID) {
@@ -160,15 +170,21 @@
 
         <h3 class="mt-4">Clean Analytics Dashboard</h3>
 
-        <div class="mb-4">
-            <div class="d-inline-block bg-light border rounded px-2 py-1 text-center m-1">
-                <div class="text-center">Pages</div>
-                <div class="fs-3" id="page-count">1,234</div>
+        <div class="mb-4 d-flex justify-content-between align-items-end">
+            <div>
+                <div class="d-inline-block bg-light border rounded px-2 py-1 text-center m-1">
+                    <div class="text-center">Pages</div>
+                    <div class="fs-3" id="page-count">1,234</div>
+                </div>
+
+                <div class="d-inline-block bg-light border rounded px-2 py-1 text-center m-1">
+                    <div class="text-center">Users</div>
+                    <div class="fs-3" id="user-count">1,234</div>
+                </div>
             </div>
 
-            <div class="d-inline-block bg-light border rounded px-2 py-1 text-center m-1">
-                <div class="text-center">Users</div>
-                <div class="fs-3" id="user-count">1,234</div>
+            <div class="spinner-border m-4 text-primary" role="status" id="spinner" style="opacity: 0;">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
 
